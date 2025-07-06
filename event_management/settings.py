@@ -95,19 +95,19 @@ DATABASES = {
         default='postgresql://event_manager_db_sigs_user:7vNxuj5eakfsIrXRc5OJlGR0W7gBH5Mk@dpg-d1laaabe5dus73ff5mmg-a.oregon-postgres.render.com/event_manager_db_sigs',
         conn_max_age=600
     )
-}
+} 
 
 # For PostGres
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "event_management",
-        "USER": "postgres",
-        "PASSWORD": "1234",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "event_management",
+#         "USER": "postgres",
+#         "PASSWORD": "1234",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
