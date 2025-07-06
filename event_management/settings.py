@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -88,6 +88,14 @@ WSGI_APPLICATION = "event_management.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://event_manager_db_sigs_user:7vNxuj5eakfsIrXRc5OJlGR0W7gBH5Mk@dpg-d1laaabe5dus73ff5mmg-a.oregon-postgres.render.com/event_manager_db_sigs',
+        conn_max_age=600
+    )
+}
 
 # For PostGres
 DATABASES = {
