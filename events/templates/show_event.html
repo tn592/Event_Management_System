@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Events</title>
+	<link rel="stylesheet" href="">
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+</head>
+<body class="p-10 bg-gray-200">
+	<div>
+		<h3 class="text-3xl font-semibold">Event Detail</h3>
+		<p class="mt-3 mb-3">Event: {{ event.name }} </p>
+		<p class="mb-3">Description: {{ event.description }} </p>
+		<p class="mb-3">Date: {{ event.date }} </p>
+		<p class="mb-3">Time: {{ event.time }} </p>
+		<p class="mb-3">Location: {{ event.location }} </p>
+		<p class="mb-3">Category: {{ event.category.name }} </p>
+		<p>Participants:</p>
+		<ul class="pl-8">
+		    {% for p in event.participant.all %}
+		        <li>{{ p.name }}</li>
+		    {% endfor %}
+		</ul>
+	</div>
+
+</body>
+</html>
