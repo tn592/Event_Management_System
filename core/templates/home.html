@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}      
+{% comment %}main container{% endcomment %}
+<main>
+	<div>
+		{% comment %}category container{% endcomment %}
+		<div class="flex justify-center items-center gap-4">
+			<h3 class="text-2xl">Categories</h3>
+			{% for ctg in categories %}
+				<a href="{% url 'home' %}?category={{ ctg.name }}" class="px-3 py-2 bg-purple-200 rounded-lg hover:bg-gray-300 cursor-pointer">{{ ctg.name }}</a>
+
+			{% endfor %}
+		</div>	
+		{% comment %}search by daterange{% endcomment %}
+		<div class="mt-8 w-1/2">
+			<form action="{% url 'home' %}" method="GET">
+				{% csrf_token %}
+				<div class="flex items-center gap-3 bg-purple-100 p-3 rounded-md">	        			
+					<div>
+            			<label for="start_date" class="text-purple-600">Start Date</label>
+            			<input type="date" name="start_date" id = "start_date" class="search-date-box border-1 border-gray-400" required>
+   					</div>
+    				<div>
+           		 		<label for="end_date" class="text-purple-600">End Date</label>
+            			<input type="date" id="end_date" name="end_date" class="search-date-box border-1 border-gray-400" required>
+    				</div>
+    				<button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-700">
+        			View Events
+    				</button>
+    			</div>
+	 		</form>
+		</div>
+	</div>
+	{% comment %}Events Container{% endcomment %}
+	<div class="mt-8 grid grid-cols-4 gap-6">
+		{% for evn in events %}
+			<div class="border-2 border-gray-200 bg-white px-3 py-4 rounded-md shadow-sm">
+			<div class="font-semibold text-purple-900">
+				<h3>Event: {{evn.name}}</h3>
+				<h3>Category: {{evn.category.name}}</h3>
+				<h3>Participant: {{evn.participant.count}} </h3>
+				<div class="ml-4">
+					<a href="{% url 'view_event' evn.id %}"><button class="mt-3 detail-btn px-1 py-1 rounded-lg border-1 border-indigo-500 text-black font-semibold hover:bg-indigo-300">Details</button></a>
+				</div>
+			</div>
+			</div>
+		{% endfor %}
+	</div>
+</main>
+{% endblock content %}

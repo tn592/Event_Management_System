@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div class="mx-auto w-1/2 my-9">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="px-2 py-1 {% if message.tags == 'success' %} bg-green-500 {% endif %} "> {{message}} </div>
+			{% endfor %}
+		{% endif %}
+		<form action="" method="POST">
+			{% csrf_token %}
+			{% comment %}
+				<input type="text" placeholder="Enter your username" name="username">
+				<input type="password" placeholder="Enter your password" name="password">
+			{% endcomment %}
+			{{ form }}
+			<button class="bg-blue-500 px-2 py-1 rounded mt-8 text-white" type="submit">Sign In</button>
+		</form>
+	</div>	
+</body>
+</html>
