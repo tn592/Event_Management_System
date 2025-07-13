@@ -1,5 +1,5 @@
 from django import forms
-from events.models import Event, Participant, Category
+from events.models import Event,  Category
 
 
 class StyledFormMixin:

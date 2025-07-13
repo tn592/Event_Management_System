@@ -18,11 +18,13 @@
 		<p class="mb-3">Location: {{ event.location }} </p>
 		<p class="mb-3">Category: {{ event.category.name }} </p>
 		<p>Participants:</p>
+		{% comment %}
 		<ul class="pl-8">
-		    {% for p in event.participant.all %}
-		        <li>{{ p.name }}</li>
-		    {% endfor %}
-		</ul>
+				    {% for p in event.participant.all %}
+				        <li>{{ p.name }}</li>
+				    {% endfor %}
+				</ul>
+		{% endcomment %}
 	</div>
 
 </body>

@@ -4,7 +4,7 @@ from django.db.models.aggregates import Count
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from events.forms import EventModelForm
-from events.models import Event, Participant, Category
+from events.models import Event, Category
 from datetime import date
 from django.db.models import Q
 def home(request):
