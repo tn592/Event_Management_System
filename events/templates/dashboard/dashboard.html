@@ -1,5 +1,3 @@
-
-{% comment %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,27 +17,18 @@
 		{% endif %}
 	</div>
 	{% comment %}Header{% endcomment %}
-		{% comment %}
-		<header class="flex justify-between items-center mb-12">
-		{% endcomment %}
-			{% comment %}logo{% endcomment %}
-			{% comment %}
-			<div><button class="w-12 h-12 bg-blue-600 rounded-full text-white font-semibold text-2xl">E</button>
-						</div>
-			{% endcomment %}
-			{% comment %}navbar{% endcomment %}
-			{% comment %}
-			<div class="flex justify-center items-center gap-6">
-							<a href="{% url 'home' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Home</div></a>
-							<a href="{% url 'organizer_dashboard' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Organizer-Dashboard</div></a>
-							<a href="{% url 'create_event' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Create-event</div></a>
-							<form action="{% url 'home' %}" method="GET"><input type="text" name="search" value="{{ search_event }}" class="search-box border-1 border-gray-400" placeholder="search event"></form>
-						</div>
-					</header>
-					{% block events %} {% endblock events %}
-			{% endcomment %}
-		
+	<header class="flex justify-between items-center mb-12">
+		{% comment %}logo{% endcomment %}
+		<div><button class="w-12 h-12 bg-blue-600 rounded-full text-white font-semibold text-2xl">E</button>
+					</div>
+		{% comment %}navbar{% endcomment %}
+		<div class="flex justify-center items-center gap-6">
+			<a href="{% url 'home' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Home</div></a>
+			<a href="{% url 'organizer_dashboard' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Organizer-Dashboard</div></a>
+			<a href="{% url 'create_event' %}"><div class="font-semibold hover:border-2 border-gray-300 hover:bg-gray-300 rounded-md px-2 py-2 cursor-pointer">Create-event</div></a>
+			<form action="{% url 'home' %}" method="GET"><input type="text" name="search" value="{{ search_event }}" class="search-box border-1 border-gray-400" placeholder="search event"></form>
+		</div>
+	</header>
+	{% block events %} {% endblock events %}
 </body>
 </html>
-
-{% endcomment %}

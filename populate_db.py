@@ -2,7 +2,7 @@ import os
 import django
 from faker import Faker
 import random
-from events.models import Event, Participant, Category
+from events.models import Event, Category
 
 # Set up Django environment
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "event_management.settings")
@@ -89,13 +89,6 @@ def populate_db():
         )
         categories.append(ctg)
 
-    # Create Participant
-    participant = [
-        Participant.objects.create(name=fake.name(), email=fake.email())
-        for _ in range(10)
-    ]
-    print(f"Created {len(participant)} participant.")
-
     # Create Events
     events = []
     for _ in range(20):
@@ -107,9 +100,7 @@ def populate_db():
             location=fake.address(),
             category=random.choice(categories),
         )
-        event.participant.set(random.sample(participant, random.randint(1, 3)))
         events.append(event)
     print(f"Created {len(events)} events.")
 
-    # print("Populated TaskDetails for all tasks.")
     print("Database populated successfully!")

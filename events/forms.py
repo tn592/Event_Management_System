@@ -54,7 +54,7 @@ class StyledFormMixin:
 class EventModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name','description','date','time','location','category','participant']
+        fields = ['name','description','date','time','location','category','participant', 'evn_img']
         widgets = {
             "date": forms.SelectDateWidget,
             "time": forms.TimeInput,
@@ -68,4 +68,12 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
         super().__init__(*arg, **kwarg)
         self.apply_styled_widgets()
 
+class CategoryForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
 
+    def __init__(self, *arg, **kwarg):
+        super().__init__(*arg, **kwarg)
+        self.apply_styled_widgets()
+            

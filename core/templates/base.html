@@ -19,7 +19,7 @@
   </head>
   <body class="font-sans bg-gray-100">
 
-    {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated %}
           {% include "logged_nav.html" %}
         {% else %}
           {% include "non_logged_nav.html" %}

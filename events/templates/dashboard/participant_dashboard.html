@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+</head>
+<body class="bg-gray-200">
+    {% include "logged_nav.html" %}
+   <main class="p-8 min-h-screen">
+    <h1 class="text-center text-3xl text-purple-800 font-bold mb-7">Your RSVPed Events</h1>
+
+    {% if event %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {% for evn in event %}
+                <div class="bg-white rounded-xl shadow-md p-4 hover:shadow-lg">
+                    <h2 class="text-xl font-semibold text-purple-900 mb-2">{{ evn.name }}</h2>
+                    <p class="text-gray-500">📅 Date: {{ evn.date }}</p>
+                    <p class="text-gray-500">🏷Category: {{ evn.category.name }}</p>
+                    <p class="text-gray-500">Location: {{ evn.location }}</p>
+                    <div class="mt-4 flex justify-items-center">
+                        <a href="{% url 'view_event' evn.id %}" 
+                           class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600">Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-gray-500 text-4xl mt-20">You haven’t RSVPed to any events yet.</p>
+    {% endif %}
+</main>
+ 
+</body>
+</html>

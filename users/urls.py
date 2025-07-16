@@ -11,5 +11,5 @@ urlpatterns = [
     path("admin/<int:user_id>/assign_role/", assign_role, name='assign_role'),
     path("admin/create_group/", create_group, name='create_group'),
     path("admin/group_list/", group_list , name='group_list'),
-    path("admin/<int:group_id>delete_group/", delete_group, name='delete_group')
+    path("admin/<int:group_id>delete_group/", delete_group, name='delete_group'),
 ]

@@ -1,3 +1,4 @@
+from asyncio import Event
 from django.contrib.auth import login, logout
 from django.db.models import Prefetch
 from django.shortcuts import HttpResponse, redirect, render
@@ -6,7 +7,7 @@ from users.forms import CreateGroupForm, CustomRegistrationForm
 from django.contrib import messages
 from users.forms import LoginForm, AssignRoleForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def is_admin(user):
@@ -19,7 +20,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save(commit=False)
             print("user", user)
-            user.set_password(form.cleaned_data.get("password1"))
+            user.set_password(form.cleaned_data.get("password"))
             print(form.cleaned_data)
             user.is_active = False
             user.save()
@@ -49,7 +50,7 @@ def sign_in(request):
 def sign_out(request):
     if request.method == "POST":
         logout(request)
-        return redirect("sign_in")
+        return redirect("home")
 
 
 def activate_user(request, user_id, token):
@@ -75,7 +76,7 @@ def admin_dashboard(request):
             user.group_name = user.all_groups[0].name 
         else:
             user.group_name = "No Group Assigned"
-    return render(request, 'admin/dashboard.html', {'users':users})
+    return render(request, 'admin/admin_dashboard.html', {'users':users})
 
 
 @user_passes_test(is_admin, login_url='no_permission')
@@ -113,13 +114,15 @@ def group_list(request):
     groups = Group.objects.prefetch_related('permissions').all()
     return render(request, 'admin/group_list.html', {'groups':groups})
 
+
 @user_passes_test(is_admin, login_url='no_permission')
 def delete_group(request, group_id):
     try:
         group = Group.objects.get(id=group_id)
-        group_name = group.name
         group.delete()
-        messages.success(request, f"Group '{group_name}' has been deleted successfully.")
+        messages.success(request, f"Group '{group.name}' has been deleted successfully.")
     except Group.DoesNotExist:
         return HttpResponse("Group not Found")
     return redirect('group_list')
+
+

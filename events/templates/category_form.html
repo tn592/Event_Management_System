@@ -9,10 +9,10 @@
 </head>
 <body>
 	<div class="w-1/2 mx-auto mt-8">
-		<h3 class="text-3xl font-semibold mb-8">Create a New Event</h3>
-			<form method="POST" enctype="multipart/form-data">
+		<h3 class="text-3xl font-semibold mb-8">Create a New Category</h3>
+			<form method="POST">
 				{% csrf_token %}
-				{{ event_form }}
+				{{ ctg_form }}
 				<button type="submit" class="bg-rose-600 px-3 py-2 text-white rounded-md mt-2">Submit</button>
 			</form>
 	</div>
