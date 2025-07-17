@@ -60,7 +60,7 @@ def create_event(request):
 
             messages.success(request, "Event Created Successfully")
             return redirect(
-                'home'
+                'organizer_dashboard'
             )
 
     context = {"event_form": event_form}
@@ -85,24 +85,22 @@ def create_category(request):
     return render(request, "category_form.html", context)
 
 
-
-
 @user_passes_test(is_organizer, login_url='no_permission')
 def update_event(request, id):
     event = Event.objects.get(id=id)
-    event_form = EventModelForm(instance=event) 
+    event_update_form = EventModelForm(instance=event) 
     
     if request.method == "POST":
-        event_form = EventModelForm(request.POST, request.FILES, instance=event)
-        if event_form.is_valid():
-            event = event_form.save()
+        event_update_form = EventModelForm(request.POST, request.FILES, instance=event)
+        if event_update_form.is_valid():
+            event = event_update_form.save()
             messages.success(request, "event Updated Successfully")
             return redirect(
                 'update_event', id
             )
 
-    context = {"event_form": event_form}
-    return render(request, "event_form.html", context)
+    context = {"event_update_form": event_update_form}
+    return render(request, "update_event_form.html", context)
 
 
 @user_passes_test(is_organizer, login_url='no_permission')

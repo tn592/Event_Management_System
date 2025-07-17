@@ -6,18 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
 	<link rel="stylesheet" href="">
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
 </head>
 <body>
-	<div class="mx-auto w-1/2 my-9">
-	<div>
-			{% if messages %}
-				{% for message in messages %}
-					<div class="px-2 py-1 {% if message.tags == 'success' %} bg-green-500 {% endif %} "> {{message}} </div>
-				{% endfor %}
-			{% endif %}
-		</div>
-
-	<div>
+	{% include "message.html" %}
+	<div class="text-center text-3xl font-sans font-semibold mt-8 mb-4">Create a New Account</div>
+	<div class="w-full max-w-lg mx-auto my-9 border-1 border-blue-400 shadow-md py-2">
+	<div class="mx-3 px-3">
 		{% if form.non_field_errors %}
 			{% for error in form.non_field_errors %}
 				{{ error }}
@@ -39,9 +34,10 @@
 				</p>
 			{% endfor %}	
 			
-			<button class="bg-blue-500 px-2 py-1 rounded mt-3 text-white" type="submit">Sign Up</button>
+			<div class="ml-24"><button type="submit" class="mx-auto bg-blue-500 px-3 py-1 text-white rounded mt-6 text-center">Submit</button></div>
 		</form>
 	</div>	
 </div>	
+<p class="text-center text-gray-500">Already have an account? <a class="text-blue-700 underline cursor-pointer" href="{% url 'sign_in' %}">Sign In</a> here</p>
 </body>
 </html>

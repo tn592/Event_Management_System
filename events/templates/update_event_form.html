@@ -8,15 +8,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
 </head>
 <body>
-	<h3 class="text-center text-3xl font-sans font-semibold mt-8 mb-4">Create a New Category</h3>
+		{% include "message.html" %}
+		<h3 class="text-center text-3xl font-sans font-semibold mt-8 mb-4">Update Event</h3>
 		<div class="w-full max-w-lg mx-auto my-9 border-1 border-blue-400 shadow-md py-2">
 			<form method="POST" enctype="multipart/form-data" class="mx-3 px-3">
 				{% csrf_token %}
-				{{ ctg_form }}
+				{{ event_update_form }}
 				<div class="ml-24"><button type="submit" class="mx-auto w-52 bg-rose-500 px-3 py-1 text-white rounded-md mt-6 text-center">Submit</button></div>
 			</form>
 	</div>
 </body>
 </html>
-
-

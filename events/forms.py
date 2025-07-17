@@ -5,7 +5,7 @@ from events.models import Event,  Category
 class StyledFormMixin:
     """Mixing to apply style to form field"""
 
-    default_classes = "border-2 border-gray-300 w-full p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+    default_classes = "mt-3 border-1 border-gray-300 w-72 px-3 py-1 rounded-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
@@ -27,26 +27,30 @@ class StyledFormMixin:
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update(
                     {
-                        "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+                        "class": "mt-2 mb-3 border-1 border-gray-300 px-3 py-1 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                     }
                 )
             elif isinstance(field.widget, forms.TimeInput):
                 field.widget.attrs.update(
                     {
-                        "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+                        "class": "mt-2 mb-3 border-1 border-gray-300 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                     }
                 )
             elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update(
                     {
                         "type": "time",
-                        "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+                        "class": "mt-2 mb-2 border-1 border-gray-300 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                     }
                 )
             elif isinstance(field.widget, forms.RadioSelect):
-                field.widget.attrs.update({"class": "mt-3 mb-3 space-y-2"})
+                field.widget.attrs.update({"class": "border-gray-300 border-b border-gray-300 mt-3 mb-4 space-y-2"})
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                field.widget.attrs.update({"class": "mt-2 mb-2 space-y-2"})
+                field.widget.attrs.update({"class": "border-t border-gray-300 border-b border-gray-300 mt-3 mb-4 space-y-2 border-1 border-blue-400 px-2 py-1 rounded-sm focus:outline-none focus:border-green-400 focus:ring-green-400"})
+            elif isinstance(field.widget, forms.SelectMultiple):
+                field.widget.attrs.update({
+                        "class": "border-1 border-blue-400 px-2 py-1 mt-3 mb-3 rounded-sm focus:outline-none focus:border-green-400 focus:ring-green-400"
+                    })  
             else:
                 field.widget.attrs.update({"class": self.default_classes})
 
