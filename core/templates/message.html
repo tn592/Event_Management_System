@@ -1,0 +1,12 @@
+<div class="w-full mx-auto mt-5">
+			<ul>
+				{% for message in messages %}
+					<li class="shadow-md text-xl text-center font-semibold px-2 py-2 italic rounded-sm
+                	{% if 'error' in message.tags %}
+                    text-white bg-red-500  
+                	{% elif 'success' in message.tags %}
+                    text-black bg-green-500  
+                    {% endif %}">{{message}}</li>
+				{% endfor %}
+			</ul>
+		</div>
