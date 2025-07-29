@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000']
 
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Application definition
 
@@ -107,7 +108,7 @@ WSGI_APPLICATION = "event_management.wsgi.application"
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://event_manager_db_sigs_user:7vNxuj5eakfsIrXRc5OJlGR0W7gBH5Mk@dpg-d1laaabe5dus73ff5mmg-a.oregon-postgres.render.com/event_manager_db_sigs',
+        default='postgresql://event_manager_db_oy68_user:rZGic029UGEdzsV86fjLYem25WYke4WV@dpg-d248qf15pdvs738250mg-a.oregon-postgres.render.com/event_manager_db_oy68',
         conn_max_age=600
     )
 }
@@ -136,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Dhaka"
 
 USE_I18N = True
 
@@ -165,4 +166,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
 FRONTEND_URL = "http://127.0.0.1:8000"
 
-LOGIN_URL = 'sign_in'
+LOGIN_URL = '/users/sign_in/'
+LOGIN_REDIRECT_URL = '/events/dashboard/'
+LOGOUT_REDIRECT_URL = '/'

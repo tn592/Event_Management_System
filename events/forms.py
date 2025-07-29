@@ -1,5 +1,10 @@
 from django import forms
 from events.models import Event,  Category
+from users.models import CustomUser
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class StyledFormMixin:
@@ -81,3 +86,7 @@ class CategoryForm(StyledFormMixin, forms.ModelForm):
         super().__init__(*arg, **kwarg)
         self.apply_styled_widgets()
             
+# class EditProfileForm(StyledFormMixin, forms.ModelForm):
+#     class Meta:
+#         model = CustomUser
+#         fields = ['email','first_name','last_name','bio','profile_image']
