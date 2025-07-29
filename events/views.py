@@ -2,15 +2,22 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.db.models.aggregates import Count
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from events.forms import CategoryForm, EventModelForm
-from events.models import Event, Category
+from events.models import Event
 from datetime import date
 from django.db.models import Q
-from django.db.models import Prefetch
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from users.views import is_admin
+from django.views.generic import ListView
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import ContextMixin
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
+
 
 def is_organizer(user):
     return user.groups.filter(name='Organizer').exists()
@@ -19,52 +26,63 @@ def is_organizer(user):
 def is_participant(user):
     return user.groups.filter(name='User').exists()
 
-@user_passes_test(is_organizer, login_url='no_permission')
-def organizer_dashboard(request):
-    type = request.GET.get('type', 'all')
-    base_query = Event.objects.select_related('category').prefetch_related('participant')
 
-    counts = base_query.aggregate(
-        total_events=Count('id', distinct=True),
-        total_participants=Count('participant', distinct=True),  
-        upcoming_events=Count('id', filter=Q(date__gte=date.today()), distinct=True),
-        past_events=Count('id', filter=Q(date__lt=date.today()), distinct=True)
-    )
-
-    # Retriving event data
-    if type == 'upcoming':
-        events = base_query.filter(date__gte=date.today()).order_by('date')
-    elif type == 'past':
-        events = base_query.filter(date__lt=date.today()).order_by('-date')
-    elif type == 'total':
-        events = base_query.order_by('date')
-    else:
-        events = base_query.filter(date=date.today())
-
-    context = {
-        "events": events,
-        "counts":counts
-    }
-    return render(request, "dashboard/organizer-dashboard.html", context)
+is_organizer_decorator = user_passes_test(is_organizer, login_url='no_permission')
 
 
-@user_passes_test(is_organizer, login_url='no_permission')
-def create_event(request):
-    event_form = EventModelForm() 
+@method_decorator(is_organizer_decorator, name='dispatch')
+class OrganizerDashboard(ListView):
+    model = Event
+    template_name = 'dashboard/organizer-dashboard.html'
+    context_object_name = 'events' 
+
+    def get_queryset(self):
+        type = self.request.GET.get('type', 'all')
+        base_query = Event.objects.select_related('category').prefetch_related('participant')
+        if type == 'upcoming':
+            return base_query.filter(date__gte=date.today()).order_by('date')
+        elif type == 'past':
+            return base_query.filter(date__lt=date.today()).order_by('-date')
+        elif type == 'total':
+            return base_query.order_by('date')
+        else:
+            return base_query.filter(date=date.today())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['counts'] = Event.objects.aggregate(
+            total_events=Count('id', distinct=True),
+            total_participants=Count('participant', distinct=True),  
+            upcoming_events=Count('id', filter=Q(date__gte=date.today()), distinct=True),
+            past_events=Count('id', filter=Q(date__lt=date.today()), distinct=True)
+        )
+        return context
+
+
+is_organizer_decorator = user_passes_test(is_organizer, login_url='no_permission')
+
+
+@method_decorator(is_organizer_decorator, name='dispatch')
+class CreateEvent(ContextMixin, LoginRequiredMixin, View):
+    login_url = 'sign_in'
+    template_name = 'event_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['event_form'] = kwargs.get('event_form', EventModelForm)
+        return context 
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
     
-    if request.method == "POST":
+    def post(self, request, *args, **kwargs):
         event_form = EventModelForm(request.POST, request.FILES)
-        
         if event_form.is_valid():
             event = event_form.save()
-
             messages.success(request, "Event Created Successfully")
-            return redirect(
-                'organizer_dashboard'
-            )
-
-    context = {"event_form": event_form}
-    return render(request, "event_form.html", context)
+            context = self.get_context_data(event_form=event_form)
+            return render(request, self.template_name, context)
 
 
 def create_category(request):
@@ -109,10 +127,10 @@ def delete_event(request, id):
         event = Event.objects.get(id=id)
         event.delete()
         messages.success(request, 'Event Deleted Successfully')
-        return redirect(organizer_dashboard)
+        return redirect('organizer_dashboard')
     else:
         messages.error(request, "something went wrong")
-        return redirect(organizer_dashboard)
+        return redirect('organizer_dashboard')
 
 
 def view_event(request, id):

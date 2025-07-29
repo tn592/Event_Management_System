@@ -1,8 +1,13 @@
 from django import forms
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Group, Permission
 from events.forms import StyledFormMixin
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm,PasswordChangeForm
 import re
+from users.models import CustomUser
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class CustomRegistrationForm(StyledFormMixin, forms.ModelForm):
@@ -86,6 +91,32 @@ class CreateGroupForm(StyledFormMixin, forms.ModelForm):
 	class Meta:
 		model = Group
 		fields = ['name', 'permissions']
+
+	def __init__(self, *arg, **kwarg):
+		super().__init__(*arg, **kwarg)
+		self.apply_styled_widgets()
+
+
+class CustomPasswordChangeForm(StyledFormMixin, PasswordChangeForm):
+	def __init__(self, *arg, **kwarg):
+		super().__init__(*arg, **kwarg)
+		self.apply_styled_widgets()
+
+class CustomPasswordResetForm(StyledFormMixin, PasswordResetForm):
+	def __init__(self, *arg, **kwarg):
+		super().__init__(*arg, **kwarg)
+		self.apply_styled_widgets()
+
+class CustomPasswordResetConfirmForm(StyledFormMixin, SetPasswordForm):
+	def __init__(self, *arg, **kwarg):
+		super().__init__(*arg, **kwarg)
+		self.apply_styled_widgets()
+
+
+class EditProfileForm(StyledFormMixin, forms.ModelForm):
+	class Meta:
+		model = CustomUser
+		fields = ['email','first_name','last_name','phone','profile_image']
 
 	def __init__(self, *arg, **kwarg):
 		super().__init__(*arg, **kwarg)
