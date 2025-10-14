@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import dj_database_url
 from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,10 +27,13 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000']
+ALLOWED_HOSTS = ["*", ".vercel.app"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.onrender.com",
+    "http://127.0.0.1:8000",
+]
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = "users.CustomUser"
 
 # Application definition
 
@@ -80,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "event_management.wsgi.application"
+WSGI_APPLICATION = "event_management.wsgi.app"
 
 
 # Database
@@ -105,12 +109,23 @@ WSGI_APPLICATION = "event_management.wsgi.application"
 #     }
 # }
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://event_manager_db_oy68_user:rZGic029UGEdzsV86fjLYem25WYke4WV@dpg-d248qf15pdvs738250mg-a.oregon-postgres.render.com/event_manager_db_oy68',
+#         conn_max_age=600
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://event_manager_db_oy68_user:rZGic029UGEdzsV86fjLYem25WYke4WV@dpg-d248qf15pdvs738250mg-a.oregon-postgres.render.com/event_manager_db_oy68',
-        conn_max_age=600
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("dbname"),
+        "USER": config("user"),
+        "PASSWORD": config("password"),
+        "HOST": config("host"),
+        "PORT": config("port"),
+    }
 }
 
 # Password validation
@@ -149,8 +164,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -169,6 +184,6 @@ if DEBUG:
 else:
     FRONTEND_URL = "https://event-management-system-mqt7.onrender.com"
 
-LOGIN_URL = '/users/sign_in/'
-LOGIN_REDIRECT_URL = '/events/dashboard/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = "/users/sign_in/"
+LOGIN_REDIRECT_URL = "/events/dashboard/"
+LOGOUT_REDIRECT_URL = "/"
