@@ -182,7 +182,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 if DEBUG:
     FRONTEND_URL = "http://127.0.0.1:8000"
 else:
-    FRONTEND_URL = "https://event-management-system-mqt7.onrender.com"
+    FRONTEND_URL = "https://event-management-system-blue.vercel.app"
 
 LOGIN_URL = "/users/sign_in/"
 LOGIN_REDIRECT_URL = "/events/dashboard/"
