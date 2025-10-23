@@ -169,11 +169,11 @@ def participant_dashboard(request, user_id):
 
 @login_required 
 def dashboard(request):
-    if is_organizer(request.user):
+    if is_admin(request.user):
+        return redirect('admin_dashboard')
+    elif is_organizer(request.user):
         return redirect('organizer_dashboard')
     elif is_participant(request.user):
         return redirect('participant_dashboard', user_id=request.user.id)
-    elif is_admin(request.user):
-        return redirect('admin_dashboard')
 
     return redirect('no_permission')
