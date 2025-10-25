@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import dj_database_url
 from decouple import config
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*", ".vercel.app"]
 CSRF_TRUSTED_ORIGINS = [
@@ -152,6 +153,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
+# Configuration for cloudinary storage
+# cloudinary.config(
+#     cloud_name=config("cloud_name"),
+#     api_key=config("cloudinary_api_key"),
+#     api_secret=config("api_secret"),
+#     secure=True,
+# )
+
+# Media storage setting
+# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Dhaka"
@@ -183,10 +195,7 @@ EMAIL_PORT = config("EMAIL_PORT")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
-if DEBUG:
-    FRONTEND_URL = "http://127.0.0.1:8000"
-else:
-    FRONTEND_URL = "https://event-management-system-blue.vercel.app"
+FRONTEND_URL = "https://event-management-system-blue.vercel.app"
 
 LOGIN_URL = "/users/sign_in/"
 LOGIN_REDIRECT_URL = "/events/dashboard/"
