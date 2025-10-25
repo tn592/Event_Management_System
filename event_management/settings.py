@@ -14,7 +14,7 @@ from pathlib import Path
 import dj_database_url
 from decouple import config
 
-# import cloudinary
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -155,15 +155,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 # Configuration for cloudinary storage
-# cloudinary.config(
-#     cloud_name=config("cloud_name"),
-#     api_key=config("cloudinary_api_key"),
-#     api_secret=config("api_secret"),
-#     secure=True,
-# )
+cloudinary.config(
+    cloud_name=config("cloud_name"),
+    api_key=config("cloudinary_api_key"),
+    api_secret=config("api_secret"),
+    secure=True,
+)
 
 # Media storage setting
-# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 LANGUAGE_CODE = "en-us"
 
@@ -180,7 +180,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
 MEDIA_URL = "/media/"

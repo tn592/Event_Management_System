@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-# from cloudinary.models import CloudinaryField
+from cloudinary.models import CloudinaryField
 
 
 class Event(models.Model):
@@ -14,13 +14,16 @@ class Event(models.Model):
     participant = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="rsvp_events"
     )
-    evn_img = models.ImageField(
-        upload_to="event_img",
-        blank=True,
-        null=True,
-        default="event_img/default_img.jpg",
+    # evn_img = models.ImageField(
+    #     upload_to="event_img",
+    #     blank=True,
+    #     null=True,
+    #     default="event_img/default_img.jpg",
+    # )
+    evn_img = CloudinaryField(
+        "image",
+        default="default_img_psnmf3",  # <-- Cloudinary public ID of your default image
     )
-    # evn_img = CloudinaryField("image")
 
     def __str__(self):
         return self.name
