@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 {% block content %}
 
 <!-- Hero Section -->
@@ -54,6 +53,7 @@
             <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
                 <div class="relative">
 
+        {% load static %}
         <img 
         src="{% if evn.evn_img %}{{ evn.evn_img.url }}{% else %}{% static 'images/default_img.jpg' %}{% endif %}" 
         alt="{{ evn.name }}" 
