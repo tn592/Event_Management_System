@@ -55,7 +55,7 @@
                 <div class="relative">
 
         <img 
-        src="{% if evn.evn_img %}{{ evn.evn_img.url }}{% else %}{% staticfiles 'images/default_img.jpg' %}{% endif %}" 
+        src="{% if evn.evn_img %}{{ evn.evn_img.url }}{% else %}{% static 'images/default_img.jpg' %}{% endif %}" 
         alt="{{ evn.name }}" 
         class="w-full h-56 sm:h-64 object-cover"
         />
