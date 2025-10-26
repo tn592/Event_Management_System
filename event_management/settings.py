@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "events",
     "users",
     "core",
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
 MIDDLEWARE = [

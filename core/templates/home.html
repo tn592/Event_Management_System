@@ -52,13 +52,11 @@
         {% for evn in events %}
             <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
                 <div class="relative">
-
-        <img 
-            src="{{ evn.evn_img.url }}" 
-            alt="{{ evn.name }}" 
-            class="w-full h-56 sm:h-64 object-cover"
-        />
-
+                   <img 
+                    src="{{ evn.evn_img.url }}" 
+                    alt="{{ evn.name }}" 
+                    class="w-full h-56 sm:h-64 object-cover"
+                    />
                     <span class="absolute top-3 right-3 bg-purple-600 text-white px-3 py-1 rounded-full text-sm shadow-md">{{ evn.category.name }}</span>
                 </div>
                 <div class="p-5">

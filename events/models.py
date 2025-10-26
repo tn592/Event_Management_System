@@ -22,7 +22,7 @@ class Event(models.Model):
     # )
     evn_img = CloudinaryField(
         "image",
-        default="default_img_psnmf3",  # <-- Cloudinary public ID of your default image
+        default="default_img_psnmf3",
     )
 
     def __str__(self):
