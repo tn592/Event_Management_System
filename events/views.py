@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.db.models.aggregates import Count
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from events.forms import CategoryForm, EventModelForm
 from events.models import Event
 from datetime import date
@@ -143,22 +143,22 @@ def view_event(request, id):
         {"event": event}
     )
 
+
 @login_required
 def rsvp(request, event_id):
-    user = request.user
     if request.method == "POST":
-        event_id = request.POST.get("event_id")
-        event = Event.objects.get(id=event_id)
-        prt = event.participant.filter(id=user.id).exists()
-        if not prt:
+        user = request.user
+        event = get_object_or_404(Event, id=event_id)
+
+        if not event.participant.filter(id=user.id).exists():
             event.participant.add(user)
             messages.success(request, "RSVP Confirmed")
         else:
-            messages.error(request, "This event is already booked")
+            messages.info(request, "You have already RSVP'd for this event.")
 
         return redirect('home')
     else:
-        messages.error(request, "something went wrong")
+        messages.error(request, "Something went wrong")
         return redirect('home')
 
 
