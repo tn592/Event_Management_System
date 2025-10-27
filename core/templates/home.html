@@ -78,6 +78,30 @@
             </div>
         {% endfor %}
     </section>
+    <!-- Pagination -->
+<div class="flex justify-center mt-10">
+  <nav class="inline-flex items-center space-x-2">
+    {% if page_obj.has_previous %}
+      <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}"
+         class="px-4 py-2 bg-purple-200 text-purple-700 rounded-lg hover:bg-purple-300 transition-all">
+        Previous
+      </a>
+    {% endif %}
+
+    <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+      <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}"
+         class="px-4 py-2 bg-purple-200 text-purple-700 rounded-lg hover:bg-purple-300 transition-all">
+        Next
+      </a>
+    {% endif %}
+  </nav>
+</div>
+
+
 
 </main>
 
