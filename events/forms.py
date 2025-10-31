@@ -10,24 +10,28 @@ User = get_user_model()
 class StyledFormMixin:
     """Mixing to apply style to form field"""
 
-    default_classes = "mt-3 border-1 border-gray-300 w-72 px-3 py-1 rounded-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
+    default_classes = (
+        "w-full mt-2 px-4 py-2 border border-gray-300 rounded-xl shadow-sm "
+        "focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all duration-300"
+    )
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update(
-                    {
-                        "class": self.default_classes,
-                        # "placeholder": f"Enter {field.label.lower()}",
-                    }
+                    {"class": self.default_classes, "autocomplete": "off"}
+                )
+            elif isinstance(field.widget, forms.PasswordInput):
+                field.widget.attrs.update(
+                    {"class": self.default_classes, "autocomplete": "current-password"}
+                )
+            elif isinstance(field.widget, forms.EmailInput):
+                field.widget.attrs.update(
+                    {"class": self.default_classes, "autocomplete": "email"}
                 )
             elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update(
-                    {
-                        "class": f"{self.default_classes} resize-none",
-                        # "placeholder": f"Enter {field.label.lower()}",
-                        "rows": 5,
-                    }
+                    {"class": f"{self.default_classes} resize-none", "rows": 5}
                 )
             elif isinstance(field.widget, forms.SelectDateWidget):
                 field.widget.attrs.update(
@@ -39,13 +43,6 @@ class StyledFormMixin:
                 field.widget.attrs.update(
                     {
                         "class": "mt-2 mb-3 border-1 border-gray-300 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
-                    }
-                )
-            elif isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update(
-                    {
-                        "type": "time",
-                        "class": "mt-2 mb-2 border-1 border-gray-300 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500",
                     }
                 )
             elif isinstance(field.widget, forms.RadioSelect):
