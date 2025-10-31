@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 def home(request):
     user = request.user
     search_event = request.GET.get("search")
@@ -15,7 +16,7 @@ def home(request):
     end_date = request.GET.get("end_date")
 
     categories = Category.objects.all()
-    events_qs = Event.objects.select_related("category").all()
+    events_qs = Event.objects.select_related("category").order_by("-date")
 
     if ctg:
         events_qs = events_qs.filter(category__name=ctg)
@@ -28,21 +29,21 @@ def home(request):
             Q(name__icontains=search_event) | Q(location__icontains=search_event)
         )
 
-    paginator = Paginator(events_qs, 8) 
+    paginator = Paginator(events_qs, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     params = request.GET.copy()
     if "page" in params:
         params.pop("page")
-    querystring = params.urlencode()  
+    querystring = params.urlencode()
 
     return render(
         request,
         "home.html",
         {
             "categories": categories,
-            "events": page_obj,       
+            "events": page_obj,
             "page_obj": page_obj,
             "search_event": search_event,
             "user": user,

@@ -1,43 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
-	<link rel="stylesheet" href="">
-	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
 </head>
-<body>
-	{% include "message.html" %}
-	<div class="text-center text-3xl font-sans font-semibold mt-8 mb-4">Create a New Account</div>
-	<div class="w-full max-w-lg mx-auto my-9 border-1 border-blue-400 shadow-md py-2">
-	<div class="mx-3 px-3">
-		{% if form.non_field_errors %}
-			{% for error in form.non_field_errors %}
-				{{ error }}
-			{% endfor %}
-		{% endif %}
-		<form action="" method="POST">
-			{% csrf_token %}
-			{% for field in form %}
-				<p>
-				<label for=" {{ field.id_for_label }} "> {{ field.label }} </label>
-				{{ field }}
-				{% if field.errors %}
-						<ul>
-					{% for error in field.errors %}
-							<li>{{error}}</li>
-					{% endfor %}
-						</ul>
-				{% endif %}
-				</p>
-			{% endfor %}	
-			
-			<div class="ml-24"><button type="submit" class="mx-auto bg-blue-500 px-3 py-1 text-white rounded mt-6 text-center">Submit</button></div>
-		</form>
-	</div>	
-</div>	
-<p class="text-center text-gray-500">Already have an account? <a class="text-blue-700 underline cursor-pointer" href="{% url 'sign_in' %}">Sign In</a> here</p>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="{% url 'home' %}" class="text-2xl font-bold text-indigo-800 hover:text-blue-600 transition-colors duration-300 font-mono">
+        EventManagement
+      </a>
+      <div class="hidden md:flex gap-3">
+        <a href="{% url 'sign_in' %}" class="text-gray-700 px-4 py-2 rounded-full border border-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-sm">
+          Sign In
+        </a>
+        <a href="{% url 'sign_up' %}" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-md">
+          Sign Up
+        </a>
+      </div>
+      <div class="md:hidden flex items-center">
+        <button id="menu-toggle" class="text-gray-700 hover:text-blue-700 focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden mt-2 bg-white/90 backdrop-blur-md rounded-xl shadow-md p-4">
+      <a href="{% url 'sign_in' %}" class="block py-2 px-3 text-gray-700 hover:text-blue-600 rounded-md hover:bg-blue-50 transition-all">Sign In</a>
+      <a href="{% url 'sign_up' %}" class="block py-2 px-3 mt-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md transition-all">Sign Up</a>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <main class="flex-grow flex items-center justify-center py-12">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+      <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Create a New Account</h1>
+      {% include "message.html" %}
+
+      <form action="" method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% for field in form %}
+          <div class="relative">
+            {{ field }}
+            <label for="{{ field.id_for_label }}" class="absolute left-3 top-2 text-gray-400 text-sm pointer-events-none transition-all duration-300">
+              {{ field.label }}
+            </label>
+            {% if field.errors %}
+              <ul class="text-red-500 text-sm mt-1">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-medium shadow-md transition-all duration-300">
+          Sign Up
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <p class="text-gray-500">Already have an account? 
+          <a href="{% url 'sign_in' %}" class="text-blue-700 hover:underline">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-inner mt-auto">
+    <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+      &copy; {{ now.year }} EventManagement. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
 </body>
 </html>
