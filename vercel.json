@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "event_management/wsgi.py",
