@@ -1,13 +1,19 @@
 {
-    "builds": [{
+  "builds": [
+    {
       "src": "event_management/wsgi.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11.3" }
-    }],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "event_management/wsgi.py"
-      }
-    ]
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "event_management/wsgi.py"
+    }
+  ]
 }
